@@ -39,7 +39,6 @@ var LogFormatter = func(values ...interface{}) (messages []interface{}) {
 		)
 		stack := debug.Stack()
 		messages = []interface{}{source, currentTime}
-		messages = append(messages, string(stack))
 		if level == "sql" {
 			// duration
 			messages = append(messages, fmt.Sprintf(" \033[36;1m[%.2fms]\033[0m ", float64(values[2].(time.Duration).Nanoseconds()/1e4)/100.0))
@@ -98,6 +97,7 @@ var LogFormatter = func(values ...interface{}) (messages []interface{}) {
 			}
 
 			messages = append(messages, sql)
+			messages = append(messages, string(stack))
 			messages = append(messages, fmt.Sprintf(" \n\033[36;31m[%v]\033[0m ", strconv.FormatInt(values[5].(int64), 10)+" rows affected or returned "))
 		} else {
 			messages = append(messages, "\033[31;1m")
