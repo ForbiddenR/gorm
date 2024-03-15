@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"regexp"
+	"runtime/debug"
 	"strconv"
 	"time"
 	"unicode"
@@ -36,9 +37,9 @@ var LogFormatter = func(values ...interface{}) (messages []interface{}) {
 			currentTime     = "\n\033[33m[" + NowFunc().Format("2006-01-02 15:04:05") + "]\033[0m"
 			source          = fmt.Sprintf("\033[35m(%v)\033[0m", values[1])
 		)
-
+		stack := debug.Stack()
 		messages = []interface{}{source, currentTime}
-
+		messages = append(messages, string(stack))
 		if level == "sql" {
 			// duration
 			messages = append(messages, fmt.Sprintf(" \033[36;1m[%.2fms]\033[0m ", float64(values[2].(time.Duration).Nanoseconds()/1e4)/100.0))
