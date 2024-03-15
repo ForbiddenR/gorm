@@ -1,4 +1,4 @@
-module github.com/edwardhey/gorm
+module github.com/ForbiddenR/gorm
 
 go 1.13
 
